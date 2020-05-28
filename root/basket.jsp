@@ -50,9 +50,13 @@ function decQuantity (prodid) {
 		// Dont need to do anything else
 			
 		// Well, apart from checking to see if they've accessed someone elses basket ;)
-		Statement stmt = conn.createStatement();
+		//Statement stmt = conn.createStatement();
+		PreparedStatement stmt = con.prepareStatement(sql);
 		try {
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Baskets WHERE basketid = " + basketId);
+			//ResultSet rs = stmt.executeQuery("SELECT * FROM Baskets WHERE basketid = " + basketId);
+			String sql = "SELECT * FROM Baskets WHERE basketid =?";
+			stmt.setString(1, basketId);
+			ResultSet rs = stmt.executeQuery();
 			rs.next();
 			String bUserId = "" + rs.getInt("userid");
 			if ((userid == null && ! bUserId.equals("0")) || (userid != null && userid.equals(bUserId))) {
